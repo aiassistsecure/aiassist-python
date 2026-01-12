@@ -5,7 +5,7 @@
 Connect to 12 AI providers with a single, unified API. Supports BYOK (Bring Your Own Key), shadow mode, human-in-the-loop, streaming, and managed workspaces.
 
 ```python
-pip install aiassist-secure
+pip install aiassist
 ```
 
 ## Features
