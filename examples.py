@@ -33,7 +33,7 @@ async def basic_chat():
     """Simple chat completion - works like OpenAI SDK."""
     async with AiAssistClient(
         api_key="aai_your_api_key",
-        base_url="https://your-instance.com"
+        base_url="https://api.aiassist.net"
     ) as client:
         
         response = await client.chat.completions.create(
