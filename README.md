@@ -31,7 +31,7 @@ from aiassist import AiAssistClient
 async def main():
     async with AiAssistClient(
         api_key="aai_your_api_key",
-        base_url="https://your-instance.com"
+        base_url="https://api.aiassist.net"
     ) as client:
         
         response = await client.chat.completions.create(
@@ -222,10 +222,10 @@ for model in models:
 
 ```python
 client = AiAssistClient(
-    api_key="aai_your_key",           # Required - your API key
-    base_url="https://your.domain",    # Your AiAssist instance URL
-    timeout=30.0,                      # Request timeout (seconds)
-    max_retries=3                      # Retry count for failures
+    api_key="aai_your_key",                 # Required - your API key
+    base_url="https://api.aiassist.net",    # Your AiAssist instance URL
+    timeout=30.0,                           # Request timeout (seconds)
+    max_retries=3                           # Retry count for failures
 )
 ```
 
@@ -271,7 +271,7 @@ from fastapi import FastAPI, Request, HTTPException
 from aiassist import AiAssistClient, AiAssistError
 
 app = FastAPI()
-client = AiAssistClient(api_key="aai_xxx", base_url="https://aiassist.yourcompany.com")
+client = AiAssistClient(api_key="aai_xxx", base_url="https://api.aiassist.net")
 
 @app.post("/api/chat")
 async def chat(request: Request):
