@@ -269,7 +269,9 @@ class Workspaces:
         client_id: Optional[str] = None,
         system_prompt: Optional[str] = None,
         context: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
+        model: Optional[str] = None,
+        max_tokens: Optional[int] = None
     ) -> WorkspaceCreateResponse:
         """
         Create a new workspace with optional system prompt and context.
@@ -280,6 +282,8 @@ class Workspaces:
             system_prompt: System instructions for the AI
             context: Custom context data for AI decisions
             metadata: Custom metadata to attach
+            model: LLM model to use (e.g. "llama-3.3-70b-versatile")
+            max_tokens: Maximum tokens for AI response
             
         Returns:
             WorkspaceCreateResponse with workspace and initial messages
@@ -295,6 +299,10 @@ class Workspaces:
             payload["context"] = context
         if metadata:
             payload["metadata"] = metadata
+        if model:
+            payload["model"] = model
+        if max_tokens is not None:
+            payload["max_tokens"] = max_tokens
         
         response = await self._client._request("POST", "/api/workspaces", json=payload)
         
@@ -362,17 +370,30 @@ class Workspaces:
     async def send_message(
         self,
         workspace_id: str,
-        content: str
+        content: str,
+        model: Optional[str] = None,
+        max_tokens: Optional[int] = None
     ) -> SendMessageResponse:
         """
         Send a message to a workspace.
         
+        Args:
+            workspace_id: Target workspace ID
+            content: Message content
+            model: LLM model override for this message
+            max_tokens: Max tokens override for this message
+        
         Returns user message, AI/human responses, mode, and shadow mode approval status.
         """
+        payload: Dict[str, Any] = {"content": content}
+        if model:
+            payload["model"] = model
+        if max_tokens is not None:
+            payload["max_tokens"] = max_tokens
         response = await self._client._request(
             "POST",
             f"/api/workspaces/{workspace_id}/messages",
-            json={"content": content}
+            json=payload
         )
         
         user_msg = response.get("user_message", {})
